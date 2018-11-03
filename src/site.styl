@@ -1,0 +1,25 @@
+@import "nib"
+@import "rupture"
+
+global-reset()
+
+body
+  font-family "Roboto", "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif;
+
+*
+  box-sizing border-box
+
+a
+  cursor pointer
+
+canvas
+  border solid 1px #AAA
+
+.global-centered
+  width 100%
+  +above('m')
+    max-width 840px
+    margin 0 auto
+
+.root
+  padding 20px 0
