@@ -1,0 +1,214 @@
+.shape
+  min-width 10vw
+  min-height 10vw
+  &--tall
+    min-height 55vw
+  &--fill
+    width 100%
+    height 100%
+  &--red
+    background-color rgba(color-red-600, 0.7)
+  &--green
+    background-color rgba(color-green-600, 0.7)
+  &--blue
+    background-color rgba(color-blue-600, 0.7)
+
+//substance, composition, subject
+.page
+  width 100vw
+
+.header-content
+  @extend .with-raleway
+  @extend .font-size-lg
+  background-color color-cyan-400
+  color rgba(white, 0.9)
+  margin-bottom 2rem
+  padding 1rem
+  width 100%
+  max-width 64rem
+
+.footer-content
+  @extend .with-raleway
+  @extend .font-size-sm
+  @extend .pad-sm
+  background-color color-grey-100
+  margin-top 4rem
+  width 100%
+  max-width 64rem
+
+.timeline-anchor
+  max-width 100vw
+.timeline
+  min-height 1rem
+  &__viewport
+    overflow-x auto
+  &__unit
+    @extend .with-system-font
+    border-right solid 1px color-blue-500
+    padding 0.2rem
+    &:last-child
+      border-right none
+    &--today
+      border-top 2px solid color-blue-300
+      border-bottom 2px solid color-blue-300
+  &__ref-columns
+    position absolute
+    top 0
+    right 0
+    bottom 0
+    left 0
+    z-index 2
+  &__ref-column
+    border-right solid 1px color-grey-300
+    &:last-child
+      border-right none
+    &:hover
+      background-color color-grey-100
+  &__rows
+    position relative
+
+.timeline-row
+  position relative
+  overflow hidden
+  &__interval
+    background-color white
+    border solid 0.2rem color-blue-600
+    border-radius 0.4rem
+    overflow hidden
+    position relative
+    z-index 3
+    &:hover
+      background-color color-blue-50
+    &--open-left
+      border-left none
+      border-top-left-radius 0
+      border-bottom-left-radius 0
+    &--open-right
+      border-right none
+      border-top-right-radius 0
+      border-bottom-right-radius 0
+    &--error
+      border-color color-red-400
+      &:hover
+        background repeating-linear-gradient(-45deg, white, white 2rem, color-red-50 2rem, color-red-50 2.5rem, white 2.5rem)
+
+.shipment-info
+  @extend .pad-sm
+  &__label
+    @extend .with-system-font
+    background transparent
+  &__id
+    white-space nowrap
+  &__status
+    background-color: color-blue-500
+    border-radius: 0.2rem
+    color: rgba(color-grey-100, 0.9)
+    padding: 0.4rem
+    white-space nowrap
+    &--error
+      background-color: color-red-500
+    &--warn
+      background-color: color-amber-700
+
+.shipments-view__group
+  @extend .with-raleway
+
+.event-stream
+  position relative
+  &__vertical-indicator
+    border-right solid 1px color-red-600
+    box-shadow 1px 0px 1px color-grey-600
+    height 100%
+    position absolute
+    z-index 10
+    pointer-events none
+  &__time-indicator
+    border-right solid 1px rgba(color-grey-500, 0.5)
+    box-shadow 1px 0px 1px color-grey-100
+    height 100%
+    position absolute
+    z-index 10
+    pointer-events none
+  &__row
+    border-bottom solid 1px color-grey-400
+    position relative
+    &--no-divider
+      border-bottom none
+  &__time-unit
+    border-right solid 1px color-grey-400
+    min-height 1rem
+    padding-left 0.5rem
+    &:last-child
+      border-right none
+  &__interval
+    @extend .with-raleway
+    flex 0 1
+    min-height 1rem
+    overflow hidden
+    position relative
+    padding 0.5rem
+    &--origin
+      border solid 2px color-purple-300
+      &:hover
+        background-color color-purple-100
+    &--distributer
+      border solid 2px color-green-300
+      &:hover
+        background-color color-green-100
+    &--transit
+      border solid 2px color-blue-300
+      &:hover
+        background-color color-blue-100
+    &--destination
+      border solid 2px color-amber-300
+      &:hover
+        background-color color-amber-100
+    &--error
+      border solid 2px color-red-400
+      background repeating-linear-gradient(-45deg, white, white 0.5rem, color-red-50 0.5rem, color-red-50 1rem, white 1rem)
+      &:hover
+        background repeating-linear-gradient(-45deg, white, white 0.5rem, color-red-200 0.5rem, color-red-200 1rem, white 1rem)
+    &--fade
+      opacity 0.7
+      border-style dashed
+
+.event
+  @extend .with-raleway
+  min-height 1rem
+  position relative
+  padding 0.5rem
+  border-left solid 3px color-grey-700
+  &--origin
+    border-color color-purple-300
+  &--hub
+    border-color color-green-300
+  &--transit
+    border-color color-blue-300
+  &--destination
+    border-color color-amber-300
+  &__title
+    font-size 1rem
+    white-space nowrap
+  &__location, &__service
+    font-size 0.8rem
+    white-space nowrap
+    color rgba(color-grey-900, 0.8)
+
+.event-interval
+  flex 0 1
+  height 0.8rem
+  position relative
+  &--origin
+    background-color color-purple-300
+  &--hub
+    background-color color-green-300
+  &--hub-predicted
+    background repeating-linear-gradient(-45deg, transparent, transparent 0.5rem, color-green-300 0.5rem, color-green-300 1rem, transparent 1rem)
+  &--transit
+    background-color color-blue-300
+  &--transit-predicted
+    background repeating-linear-gradient(-45deg, transparent, transparent 0.5rem, color-blue-200 0.5rem, color-blue-200 1rem, transparent 1rem)
+  &--destination
+    border solid 2px color-amber-300
+  &--destination-predicted
+    background repeating-linear-gradient(-45deg, transparent, transparent 0.5rem, color-amber-200 0.5rem, color-amber-200 1rem, transparent 1rem)

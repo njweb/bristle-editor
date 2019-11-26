@@ -1,0 +1,15 @@
+for size, value in sizes
+  .font-size-{size}
+    font-size value !important
+    line-height line-height-ratio !important
+
+@font-face
+  font-family Raleway
+  font-style normal
+  src url(/assets/Raleway-Regular.ttf)
+
+.with-raleway
+  font-family Raleway, sans-serif
+
+.with-system-font
+  font-family -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"

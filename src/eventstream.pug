@@ -1,0 +1,110 @@
+- var intervalValues1 = Array.from({ length: 18 }, (_, idx) => idx + 1);
+- var intervalValues2 = Array.from({ length: 30 }, (_, idx) => idx + 1);
+doctype html
+
+html(lang="en")
+  head
+    meta(charset="UTF-8")
+    title Logistics Demo
+    link(type='text/css' rel='stylesheet' href='site.css')
+    unless nodeEnv === 'production'
+      script(src="/assets/dev_websocket.js")
+    script(src="eventstream.app.js" defer)
+  body
+    include assets/svg_icons
+    header.flex.flex--center
+      .header-content.flex__1 Event Stream
+    section.flex.flex--center
+      .flex__1.flex.flex--col.stack-xxl
+        section#event-timeline.event-stream.flex__1.flex.flex--col
+          .event-stream__vertical-indicator
+          .flex.event-stream__row
+            each val in intervalValues1
+              .event-stream__time-unit.flex__1=val
+          .flex.event-stream__row
+            .event-stream__interval.event-stream__interval--origin(
+              style={ 'flex-basis': '10%', left: '0%' }) Manufacture
+          .flex.event-stream__row
+            .event-stream__interval.event-stream__interval--transit(
+              style={ 'flex-basis': '30%', left: '10%' }) Trucking
+          .flex.event-stream__row
+            .event-stream__interval.event-stream__interval--distributer(
+              style={ 'flex-basis': '15%', left: '40%' }) Harbor
+            .event-stream__interval.event-stream__interval--error(
+              style={ 'flex-basis': '5%', left: '40%' })
+          .flex.event-stream__row
+            .event-stream__interval.event-stream__interval--transit(
+              style={ 'flex-basis': '30%', left: '60%' }) Shipping
+          .flex.event-stream__row
+            .event-stream__interval.event-stream__interval--destination(
+              style={ 'flex-basis': '10%', left: '90%' }) Warehouse
+          .flex.event-stream__row
+            .event-stream__interval.event-stream__interval--origin.event-stream__interval--fade(
+              style={ 'flex-basis': '10%', left: '0%' })
+            .event-stream__interval.event-stream__interval--transit.event-stream__interval--fade(
+              style={ 'flex-basis': '30%', left: '0%' })
+            .event-stream__interval.event-stream__interval--distributer.event-stream__interval--fade(
+              style={ 'flex-basis': '12%', left: '0%' })
+            .event-stream__interval.event-stream__interval--transit.event-stream__interval--fade(
+              style={ 'flex-basis': '26%', left: '0%' })
+            .event-stream__interval.event-stream__interval--destination.event-stream__interval--fade(
+              style={ 'flex-basis': '10%', left: '0%' })
+        section.event-stream.flex__1.flex.flex--col
+          .event-stream__time-indicator(style={ left: '79%' })
+          .flex.event-stream__row
+            each val in intervalValues2
+              .event-stream__time-unit.flex__1=val
+          // --------
+          .flex.flex--col.event-stream__row.event-stream__row--no-divider
+            .event.event--origin.flex.flex--col(
+              style={ left: '0%' })
+              .event__title Origin
+              .event__location XYZ Manufacture
+          .flex.event-stream__row
+            .event-interval.event-interval--origin(
+              style={ 'flex-basis': '8%', left: '0%' })
+          // --------
+          .flex.flex--col.event-stream__row.event-stream__row--no-divider
+            .event.event--transit.flex.flex--col(
+              style={ left: '8%' })
+              .event__title ABC Trucking
+              .event__location &#8594; Victoria Harbour 維多利亞港 Hong Kong
+          .flex.event-stream__row
+            .event-interval.event-interval--transit(
+              style={ 'flex-basis': '14%', left: '8%' })
+          // --------
+          .flex.flex--col.event-stream__row.event-stream__row--no-divider
+            .event.event--hub.flex.flex--col(
+              style={ left: '22%' })
+              .event__title Victoria Harbour 維多利亞港 Hong Kong
+          .flex.event-stream__row
+            .event-interval.event-interval--hub(
+              style={ 'flex-basis': '7%', left: '22%' })
+          // --------
+          .flex.flex--col.event-stream__row.event-stream__row--no-divider
+            .event.event--transit.flex.flex--col(
+              style={ left: '29%' })
+              .event__title MuchStuff Shipping
+              .event__location &#8594; 482 Pier T Ave, Long Beach, CA 90802
+          .flex.event-stream__row
+            .event-interval.event-interval--transit(
+              style={ 'flex-basis': '48%', left: '29%' })
+          // --------
+          .flex.flex--col.event-stream__row.event-stream__row--no-divider
+            .event.event--hub.flex.flex--col(
+              style={ left: '77%' })
+              .event__title 482 Pier T Ave, Long Beach, CA 90802
+          .flex.event-stream__row
+            .event-interval.event-interval--hub(
+              style={ 'flex-basis': '2%', left: '77%' })
+            .event-interval.event-interval--hub-predicted(
+              style={ 'flex-basis': '11%', left: '77%' })
+          // --------
+          .flex.flex--col.event-stream__row.event-stream__row--no-divider
+            .event.event--destination.flex.flex--col(
+              style={ left: '90%' })
+              .event__title Destination
+              .event__location Shirts Galore
+          .flex.event-stream__row
+            .event-interval.event-interval--destination-predicted(
+              style={ 'flex-basis': '10%', left: '90%' })

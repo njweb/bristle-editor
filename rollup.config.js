@@ -1,35 +1,35 @@
-import commonjs from 'rollup-plugin-commonjs'
-import resolve from 'rollup-plugin-node-resolve'
-import replace from 'rollup-plugin-replace'
-import babel from 'rollup-plugin-babel'
-import uglify from 'rollup-plugin-uglify'
-import {minify} from 'uglify-es'
+import commonjs from 'rollup-plugin-commonjs';
+import resolve from 'rollup-plugin-node-resolve';
+import replace from 'rollup-plugin-replace';
+import babel from 'rollup-plugin-babel';
+import { terser } from 'rollup-plugin-terser';
 
-const cfg = require('./cfg.json');
-const appConfiguration = process.env.NODE_ENV === 'production' ?
-  cfg.appConfiguration.production :
-  cfg.appConfiguration.dev;
+const isProduction = process.env.NODE_ENV === 'production'
 
-export default {
-  input: "src/app.js",
-  plugins: [
-    commonjs({ include: './node_modules/**' }),
-    resolve({ extensions: ['.js', '.jsx'] }),
-    replace({
-      // 'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
-      'process.env.NODE_ENV': JSON.stringify('production'),
-      'INITIAL.STATE': JSON.stringify(appConfiguration)
+const output = {
+  format: 'iife',
+  sourcemap: isProduction ? null : true,
+};
+
+const plugins = [
+    commonjs({
+      include: 'node_modules/**',
+      sourcmap: !isProduction
     }),
-    babel({ exclude: './node_modules/**' }),
-    uglify({}, minify)
-  ],
-  output: {
-    file: "_dev/app.js",
-    format: "umd",
-    name: "myapp",
-    sourcemap: 'inline'
-  },
-  watch: {
-    exclude: 'node_modules/**'
-  }
-}
+    resolve({
+      extensions: ['.js', '.jsx'],
+    }),
+    replace({
+      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)
+    }),
+    babel({
+      exclude: 'node_modules/**',
+    }),
+    isProduction && terser(),
+];
+
+export default [{
+  input: 'src/scripts/main.app.js',
+  output,
+  plugins,
+}];

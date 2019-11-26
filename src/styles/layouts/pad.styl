@@ -1,0 +1,30 @@
+.pad
+  for name, length in lengths
+    &-{name}
+      padding length * line-height-ratio * 0.5
+  &-t
+    for name, length in lengths
+      &-{name}
+        padding-top length * line-height-ratio * 0.5
+  &-r
+    for name, length in lengths
+      &-{name}
+        padding-right length * line-height-ratio * 0.5
+  &-b
+    for name, length in lengths
+      &-{name}
+        padding-bottom length * line-height-ratio * 0.5
+  &-l
+    for name, length in lengths
+      &-{name}
+        padding-left length * line-height-ratio * 0.5
+  &-x
+    for name, length in lengths
+      &-{name}
+        padding-left length * line-height-ratio * 0.5
+        padding-right length * line-height-ratio * 0.5
+  &-y
+    for name, length in lengths
+      &-{name}
+        padding-top length * line-height-ratio * 0.5
+        padding-bottom length * line-height-ratio * 0.5

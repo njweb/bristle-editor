@@ -1,0 +1,9 @@
+.shim
+  &-x
+    for name, length in lengths
+      &-{name}
+        width length * line-height-ratio * 0.5
+  &-y
+    for name, length in lengths
+      &-{name}
+        height length * line-height-ratio * 0.5

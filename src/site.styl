@@ -1,25 +1,33 @@
-@import "nib"
-@import "rupture"
-
-global-reset()
-
-body
-  font-family "Roboto", "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif;
+@require 'styles/normalize'
+@require 'styles/constants'
+@require 'styles/font'
+@require 'styles/layout'
+@require 'styles/content'
 
 *
   box-sizing border-box
 
+p,article,h1,h2,h3,h4,h5
+  max-width 64ch
+
 a
   cursor pointer
+  text-decoration none
+  color color-blue-400
 
-canvas
-  border solid 1px #AAA
+p
+  margin 0
 
-.global-centered
-  width 100%
-  +above('m')
-    max-width 840px
-    margin 0 auto
+ul
+  padding-left 0
+  margin-top 0
+  margin-bottom 0
 
-.root
-  padding 20px 0
+li
+  list-style-type none
+
+body
+  color color-grey-900
+  overflow-x hidden
+  width 100vw
+
