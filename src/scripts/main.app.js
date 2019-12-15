@@ -1,11 +1,13 @@
 /* eslint-disable react/jsx-filename-extension */
 import { h, render } from 'preact';
+import RenderPlane from './RenderPlane';
+import AppComponent from './AppComponent';
 
-const MyApp = () => <div>App</div>;
+const MyApp = () => <RenderPlane />;
 
 const doRender = state => {
-  render(<MyApp state={state} dispatch={() => {}} />,
-    document.querySelector('.timeline-anchor'));
+  render(<AppComponent state={state} dispatch={() => {}} />,
+    document.querySelector('.app-anchor'));
 };
 
-doRender(appStore.getState());
+doRender({});

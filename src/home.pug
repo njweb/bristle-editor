@@ -3,28 +3,14 @@ doctype html
 html(lang="en")
   head
     meta(charset="UTF-8")
-    title Logistics Demo
+    title Bristle Board
     link(type='text/css' rel='stylesheet' href='site.css')
     unless nodeEnv === 'production'
       script(src="/assets/dev_websocket.js")
     script(src="/main.app.js" defer)
   body
     include assets/svg_icons
-    header.flex.flex--center
-      .header-content.flex__1 Logistics Demo
-    section.timeline-anchor
-    footer.flex.flex--center
-      .footer-content.flex.flex--col
-        h4 Built with
-        .flex.rack-med
-          ul
-            li preact
-            li redux
-            li date-fns
-            li timm
-          ul
-            li pug
-            li stylus
-            li rollup
-            li babel
-            li material colors
+    .page
+      header.header
+        .header__content.flex__1 Bristle Board
+      section.app-anchor
