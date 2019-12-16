@@ -7,6 +7,54 @@ const mouseEventTypes = {
   terminate: 'terminate',
 };
 
+const mouseMethods = {
+  mouseDownHandler: function(e) {
+    this.isDragging = true;
+    vec2.set(this.dragAnchor, e.clientX, e.clientY);
+    vec2.set(this.dragPoint, e.clientX, e.clientY);
+    this.triggerCallback(this.begin);
+  },
+  mouseUpHandler: function(e) {
+    if (this.isDragging) {
+      vec2.set(this.dragPoint, e.clientX, e.clientY);
+      this.isDragging = false;
+      this.triggerCallback(mouseEventTypes.complete);
+    }
+  },
+  mouseOutHandler: function(e) {
+    if (this.isDragging) {
+      this.isDragging = false;
+      this.triggerCallback(mouseEventTypes.terminate);
+    }
+  },
+  mouseMoveHandler: function(e) {
+    if (this.isDragging) {
+      vec2.set(this.dragPoint, e.clientX, e.clientY);
+      vec2.set(this.dragPoint, e.clientX, e.clientY);
+      this.triggerCallback(mouseEventTypes.move);
+    }
+  },
+  triggerCallback: function(eventType) {
+    if (this.callback) {
+      this.callback(eventType);
+    }
+  },
+  subscribe: function(callback) {
+    this.callback = callback;
+  },
+}
+
+const bldMouseSystem = () => {
+  const mouseState = {
+    callback: null,
+    isDragging: false,
+    dragAnchor: vec2.create(),
+    dragPoint: vec2.create(),
+  };
+
+  return Object.assign(Object.create(mouseMethods), mouseState);
+};
+
 const buildMouseSystem = () => {
   const mouseDynamicState = {
     callback: null,
@@ -57,4 +105,4 @@ const buildMouseSystem = () => {
 };
 
 export { mouseEventTypes };
-export default buildMouseSystem;
+export default bldMouseSystem;
