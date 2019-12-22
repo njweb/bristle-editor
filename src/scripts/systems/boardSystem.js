@@ -1,6 +1,7 @@
 import { vec2, mat2d } from 'gl-matrix';
 import drawUtilites from '../graphics/drawUtilities';
 
+const localVec2 = vec2.create();
 const buildVec2 = (x, y) => vec2.set(vec2.create(), x, y);
 const projMatrix = mat2d.create();
 
@@ -25,6 +26,12 @@ const boardMethods = {
 
     this.willRender = false;
   },
+  prepareRender(boundRenderFn) {
+    if (!this.willRender) {
+      window.requestAnimationFrame(boundRenderFn);
+      this.willRender = true;
+    }
+  },
   clearCanvas: function() {
     const { ctx2d } = this;
 
@@ -38,20 +45,14 @@ const boardMethods = {
     } = this;
 
     if (mouseSystem.isDragging) {
-      vec2.sub(localVec2, mouseState.dragPoint, mouseState.dragAnchor);
+      vec2.sub(localVec2, mouseSystem.dragPoint, mouseSystem.grabPoint);
 
       ctx2d.strokeStyle = 'red';
       ctx2d.strokeRect(
-        mouseState.dragAnchor[0],
-        mouseState.dragAnchor[1],
+        mouseSystem.grabPoint[0],
+        mouseSystem.grabPoint[1],
         localVec2[0],
         localVec2[1]);
-    }
-  },
-  prepareRender: function() {
-    if (!this.willRender) {
-      window.requestAnimationFrame(render);
-      this.willRender = true;
     }
   },
 };
@@ -70,7 +71,7 @@ const buildBoardSystem = ({ ctx2d, mouseSystem, viewportSystem }) => {
   };
 
   const boardSystem = Object.assign(Object.create(boardMethods), boardState);
-  mouseSystem.subscribe(() => boardSystem.prepareRender());
+  mouseSystem.subscribe(() => boardSystem.prepareRender(boardSystem.render.bind(boardSystem)));
 
   return boardSystem;
 };

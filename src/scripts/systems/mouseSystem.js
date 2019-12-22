@@ -1,16 +1,66 @@
 import { vec2 } from 'gl-matrix'
 
+// mouse event cycle
+// down -> set timestamp
+// up -> if duration < 0.7s -> click
+// move -> drag
+// up -> release
+
 const mouseEventTypes = {
-  begin: 'begin',
-  move: 'move',
-  complete: 'complete',
-  terminate: 'terminate',
+  click: 'click',
+  grab: 'grab',
+  drag: 'drag',
+  release: 'release',
+  cancel: 'cancel',
 };
 
+const isLeftButtonDown = buttons => (buttons & 1) !== 0;
+
 const mouseMethods = {
+  onDown(x, y, buttons) {
+    if (!this.isDragging) {
+      vec2.set(this.grabPoint, x, y);
+    }
+  },
+  onUp(x, y, buttons) {
+    if (this.isDragging && !isLeftButtonDown(buttons)) {
+      this.isDragging = false;
+      vec2.set(this.dragPoint, x, y);
+      this.triggerCallback(mouseEventTypes.release);
+    } else if (!isLeftButtonDown(buttons)) {
+      vec2.set(this.clickPoint, x, y);
+      this.triggerCallback(mouseEventTypes.click);
+    }
+  },
+  onMove(x, y, buttons) {
+    if (this.isDragging) {
+      if (isLeftButtonDown(buttons)) {
+        vec2.set(this.dragPoint, x, y);
+        this.triggerCallback(mouseEventTypes.drag);
+      } else {
+        this.isDragging = false;
+        this.triggerCallback(mouseEventTypes.cancel);
+      }
+    } else if (isLeftButtonDown(buttons)) {
+      this.isDragging = true;
+      vec2.set(this.dragPoint, x, y)
+      this.triggerCallback(mouseEventTypes.grab);
+    }
+  },
+  onEnter(x, y, buttons) {
+    if (this.isDragging) {
+      if (isLeftButtonDown(buttons)) {
+        vec2.set(this.dragPoint, x, y);
+        this.triggerCallback(mouseEventTypes.drag);
+      } else {
+        this.Dragging = false;
+        this.triggerCallback(mouseEventTypes.cancel);
+      }
+    }
+  },
   mouseDownHandler: function(e) {
     this.isDragging = true;
-    vec2.set(this.dragAnchor, e.clientX, e.clientY);
+    vec2.set(this.grabPoint, e.clientX, e.clientY);
     vec2.set(this.dragPoint, e.clientX, e.clientY);
     this.triggerCallback(this.begin);
   },
@@ -48,8 +98,9 @@ const bldMouseSystem = () => {
   const mouseState = {
     callback: null,
     isDragging: false,
-    dragAnchor: vec2.create(),
+    grabPoint: vec2.create(),
     dragPoint: vec2.create(),
+    clickPoint: vec2.create(),
   };
 
   return Object.assign(Object.create(mouseMethods), mouseState);

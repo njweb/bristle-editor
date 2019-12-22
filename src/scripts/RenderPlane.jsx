@@ -12,6 +12,15 @@ const RenderPlane = ({ size }) => {
     return buildMouseSystem();
   }, []);
 
+  const mouseEventHandlers = useMemo(() => (
+    ['onDown', 'onUp', 'onMove', 'onEnter'].reduce((accHandlers, handlerKey) => (
+      Object.defineProperty(
+        accHandlers,
+        handlerKey,
+        { value: e => mouseSystem[handlerKey](e.clientX, e.clientY, e.buttons) })
+    ), {})
+  ));
+
   const canvasRef = useCallback(canvasEl => {
     if (canvasEl !== null) {
       const ctx2d = canvasEl.getContext('2d');
@@ -25,23 +34,16 @@ const RenderPlane = ({ size }) => {
     }
   }, []);
 
-  const {
-    mouseDownHandler,
-    mouseUpHandler,
-    mouseOutHandler,
-    mouseMoveHandler,
-  } = mouseSystem;
-
   return (
     <canvas
       width={size[0]}
       height={size[1]}
       className="render-place__canvas"
       ref={canvasRef}
-      onMouseDown={mouseDownHandler}
-      onMouseUp={mouseUpHandler}
-      onMouseMove={mouseMoveHandler}
-      onMouseOut={mouseOutHandler}
+      onMouseDown={mouseEventHandlers.onDown}
+      onMouseUp={mouseEventHandlers.onUp}
+      onMouseMove={mouseEventHandlers.onMove}
+      onMouseEnter={e => mouseEventHandlers.onEnter}
     />
   );
 };
