@@ -44,11 +44,34 @@ const stateMachineMethods = {
 
 const buildStateMachine = ({ states, initialStateKey, memory, systems }) => {
   Object.assign(Object.create(stateMachineMethods), {
-    stateKey: initalStateKey,
+    stateKey: initialStateKey,
     states,
     memory,
     systems
   });
+};
+
+const cameraStates = {
+  disengaged: {
+    mouseGrab: (action, memory, systems) => {
+      vec2.copy(memory.cameraAnchorPoint, systems.viewportSystem.offset);
+      return 'engaged';
+    },
+  },
+  engaged: {
+    mouseDrag: (action, memory, systems) => {
+      const { mouseSystem: { dragAnchor, dragPoint } } = systems;
+      vec2.sub(localVec2, dragPoint, dragAnchor);
+      vec2.add(systems.viewportSystem.offset, memory.cameraAnchorPoint, localVec2);
+      // systems.boardSystem.prepareRender();
+    },
+    mouseRelease: (action, memory, systems) => {
+      return 'disengaged';
+    },
+    mouseTerminate: (action, memory, systems) => {
+      return 'disengaged';
+    },
+  },
 };
 
 const localVec2 = vec2.create();

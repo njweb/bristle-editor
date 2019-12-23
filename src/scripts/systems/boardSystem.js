@@ -1,5 +1,6 @@
 import { vec2, mat2d } from 'gl-matrix';
 import drawUtilites from '../graphics/drawUtilities';
+import buildCameraTool from '../tools/cameraTool';
 
 const localVec2 = vec2.create();
 const buildVec2 = (x, y) => vec2.set(vec2.create(), x, y);
@@ -70,8 +71,13 @@ const buildBoardSystem = ({ ctx2d, mouseSystem, viewportSystem }) => {
     ],
   };
 
+  const cameraTool = buildCameraTool({ systems: { mouseSystem, viewportSystem } });
+
   const boardSystem = Object.assign(Object.create(boardMethods), boardState);
-  mouseSystem.subscribe(() => boardSystem.prepareRender(boardSystem.render.bind(boardSystem)));
+  mouseSystem.subscribe((msgType, sourceSystem) => {
+    console.log('event', msgType, sourceSystem);
+    boardSystem.prepareRender(boardSystem.render.bind(boardSystem))
+  });
 
   return boardSystem;
 };

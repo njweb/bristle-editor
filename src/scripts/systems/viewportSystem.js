@@ -12,18 +12,18 @@ const updateCameraMatrix = viewportState => {
   mat2d.mul(cameraMatrix, localMatrix, cameraMatrix);
 
   mat2d.fromTranslation(localMatrix, offset);
-  mat2d.mul(cameraMatrix, cameraMatrix, localMatrix);
+  mat2d.mul(cameraMatrix, localMatrix, cameraMatrix);
 
   return cameraMatrix;
 };
 
 const viewportMethods = {
   projectPoint: function(out, point) {
-    vec2.transformMat2d(out, point, this.cameraMatrix);
-    return vec2.transformMat2d(out, out, this.viewportMatrix);
+    return vec2.transformMat2d(out, point, this.getProjectionMatrix(localMatrix));
   },
   getProjectionMatrix: function(out) {
-    return mat2d.mul(out, this.cameraMatrix, this.viewportMatrix);
+    //return mat2d.mul(out, this.cameraMatrix, this.viewportMatrix);
+    return mat2d.mul(out, this.viewportMatrix, this.cameraMatrix);
   },
 };
 

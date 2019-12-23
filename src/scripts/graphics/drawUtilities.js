@@ -3,7 +3,7 @@ import { vec2, mat2d } from 'gl-matrix';
 const buildVec2 = (x, y) => vec2.set(vec2.create(), x, y);
 const moveTo = (ctx2d, point) => ctx2d.moveTo(point[0], point[1]);
 const lineTo = (ctx2d, point) => ctx2d.lineTo(point[0], point[1]);
-const localVec2 = vec2.create();
+const localVec = vec2.create();
 
 const drawUtilites = {
   point: (() => {
@@ -14,16 +14,14 @@ const drawUtilites = {
     const outVec = vec2.create();
 
     return (ctx2d, transformMatrix, point) => {
+      vec2.transformMat2d(localVec, point, transformMatrix);
+
       ctx2d.beginPath();
 
-      moveTo(ctx2d, vec2.transformMat2d(outVec,
-        vec2.add(outVec, point, offsetA), transformMatrix)),
-        lineTo(ctx2d, vec2.transformMat2d(outVec,
-          vec2.add(outVec, point, offsetB), transformMatrix)),
-        lineTo(ctx2d, vec2.transformMat2d(outVec,
-          vec2.add(outVec, point, offsetC), transformMatrix)),
-        lineTo(ctx2d, vec2.transformMat2d(outVec,
-          vec2.add(outVec, point, offsetD), transformMatrix)),
+      moveTo(ctx2d, vec2.add(outVec, localVec, offsetA));
+      lineTo(ctx2d, vec2.add(outVec, localVec, offsetB));
+      lineTo(ctx2d, vec2.add(outVec, localVec, offsetC));
+      lineTo(ctx2d, vec2.add(outVec, localVec, offsetD));
 
       ctx2d.closePath();
       ctx2d.fillStyle = 'black';
@@ -77,14 +75,15 @@ const drawUtilites = {
       buildVec2(25, 0),
       buildVec2(-25, 0),
     ];
+    const outVec = vec2.create();
 
     return (ctx2d, transformMatrix) => {
       ctx2d.beginPath();
-      moveTo(ctx2d, vec2.transformMat2d(localVec2, points[0], transformMatrix));
-      lineTo(ctx2d, vec2.transformMat2d(localVec2, points[1], transformMatrix));
+      moveTo(ctx2d, vec2.transformMat2d(outVec, points[0], transformMatrix));
+      lineTo(ctx2d, vec2.transformMat2d(outVec, points[1], transformMatrix));
 
-      moveTo(ctx2d, vec2.transformMat2d(localVec2, points[2], transformMatrix));
-      lineTo(ctx2d, vec2.transformMat2d(localVec2, points[3], transformMatrix));
+      moveTo(ctx2d, vec2.transformMat2d(outVec, points[2], transformMatrix));
+      lineTo(ctx2d, vec2.transformMat2d(outVec, points[3], transformMatrix));
 
       ctx2d.strokeStyle = 'blue';
       ctx2d.stroke();

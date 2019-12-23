@@ -86,7 +86,7 @@ const mouseMethods = {
   },
   triggerCallback: function(eventType) {
     if (this.callback) {
-      this.callback(eventType);
+      this.callback(eventType, this);
     }
   },
   subscribe: function(callback) {
