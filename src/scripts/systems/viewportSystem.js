@@ -11,7 +11,7 @@ const updateCameraMatrix = viewportState => {
   mat2d.fromScaling(localMatrix, vec2.set(localVec2, scale, scale));
   mat2d.mul(cameraMatrix, localMatrix, cameraMatrix);
 
-  mat2d.fromTranslation(localMatrix, offset);
+  mat2d.fromTranslation(localMatrix, vec2.negate(localVec2, offset));
   mat2d.mul(cameraMatrix, localMatrix, cameraMatrix);
 
   return cameraMatrix;
@@ -25,6 +25,14 @@ const viewportMethods = {
     //return mat2d.mul(out, this.cameraMatrix, this.viewportMatrix);
     return mat2d.mul(out, this.viewportMatrix, this.cameraMatrix);
   },
+  setOffset(newOffset) {
+    vec2.copy(this.offset, newOffset);
+    updateCameraMatrix(this);
+  },
+  setScale(newScale) {
+  },
+  setRotation(newRotation) {
+  },
 };
 
 const buildViewportSystem = ({ ctx2d }) => {
@@ -37,6 +45,7 @@ const buildViewportSystem = ({ ctx2d }) => {
     offset: [0, 0],
     scale: 1,
     rotation: 0,
+    ctx2d,
     cameraMatrix: mat2d.create(),
   };
   viewportState.transforms = {

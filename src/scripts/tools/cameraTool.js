@@ -6,7 +6,7 @@ import { vec2 } from 'gl-matrix';
 
 const stateMachineMethods = {
   findHandler: function(actionType) {
-    const { states, stateKey } = this.stateMachine;
+    const { states, stateKey } = this;
     const activeState = states[stateKey];
 
     if (activeState) {
@@ -26,7 +26,7 @@ const stateMachineMethods = {
         activeState._leave(this.memory, this.systems);
       }
 
-      const nextState = this.states[this.nextStateKey];
+      const nextState = this.states[nextStateKey];
       if (nextState._enter) {
         nextState._enter(this.memory, this.systems);
       }
@@ -34,16 +34,16 @@ const stateMachineMethods = {
       this.stateKey = nextStateKey;
     }
   },
-  dispatch: function(action) {
-    const handler = this.findHandler(action.type)
+  dispatch: function(action, source) {
+    const handler = this.findHandler(action)
     if (handler) {
-      this.updateStateKey(handler(action, this.memory, this.systems));
+      this.updateStateKey(handler(action, source, this.memory, this.systems));
     }
   }
 };
 
 const buildStateMachine = ({ states, initialStateKey, memory, systems }) => {
-  Object.assign(Object.create(stateMachineMethods), {
+  return Object.assign(Object.create(stateMachineMethods), {
     stateKey: initialStateKey,
     states,
     memory,
@@ -51,50 +51,29 @@ const buildStateMachine = ({ states, initialStateKey, memory, systems }) => {
   });
 };
 
-const cameraStates = {
-  disengaged: {
-    mouseGrab: (action, memory, systems) => {
-      vec2.copy(memory.cameraAnchorPoint, systems.viewportSystem.offset);
-      return 'engaged';
-    },
-  },
-  engaged: {
-    mouseDrag: (action, memory, systems) => {
-      const { mouseSystem: { dragAnchor, dragPoint } } = systems;
-      vec2.sub(localVec2, dragPoint, dragAnchor);
-      vec2.add(systems.viewportSystem.offset, memory.cameraAnchorPoint, localVec2);
-      // systems.boardSystem.prepareRender();
-    },
-    mouseRelease: (action, memory, systems) => {
-      return 'disengaged';
-    },
-    mouseTerminate: (action, memory, systems) => {
-      return 'disengaged';
-    },
-  },
-};
-
 const localVec2 = vec2.create();
-const buildCameraTool = ({ systems: { mouseSystem, viewportSystem } }) => {
+const flipYVector = vec2.set(vec2.create(), 1, -1);
+const buildCameraTool = ({ systems: { viewport } }) => {
   const memory = { cameraAnchorPoint: vec2.create() };
   const states = {
     disengaged: {
-      mouseGrab: (action, memory, systems) => {
-        vec2.copy(memory.cameraAnchorPoint, systems.viewportSystem.offset);
+      grab: (action, mouseSystem, memory, systems) => {
+        vec2.copy(memory.cameraAnchorPoint, systems.viewport.offset);
         return 'engaged';
       },
     },
     engaged: {
-      mouseDrag: (action, memory, systems) => {
-        const { mouseSystem: { dragAnchor, dragPoint } } = systems;
-        vec2.sub(localVec2, dragPoint, dragAnchor);
-        vec2.add(systems.viewportSystem.offset, memory.cameraAnchorPoint, localVec2);
-        // systems.boardSystem.prepareRender();
+      drag: (action, mouseSystem, memory, systems) => {
+        const { grabPoint, dragPoint } = mouseSystem;
+        vec2.sub(localVec2, grabPoint, dragPoint);
+        vec2.mul(localVec2, localVec2, flipYVector);
+        systems.viewport.setOffset(
+          vec2.add(localVec2, memory.cameraAnchorPoint, localVec2));
       },
-      mouseRelease: (action, memory, systems) => {
+      release: (action, mouseSystem, memory, systems) => {
         return 'disengaged';
       },
-      mouseTerminate: (action, memory, systems) => {
+      cancel: (action, mouseSystem, memory, systems) => {
         return 'disengaged';
       },
     },
@@ -104,10 +83,7 @@ const buildCameraTool = ({ systems: { mouseSystem, viewportSystem } }) => {
     states,
     initialStateKey: 'disengaged',
     memory,
-    systems: {
-      mouseSystem,
-      viewportSystem,
-    },
+    systems: { viewport },
   });
 };
 

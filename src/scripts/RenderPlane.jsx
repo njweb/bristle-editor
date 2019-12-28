@@ -22,16 +22,16 @@ const RenderPlane = ({ size }) => {
   ));
 
   const canvasRef = useCallback(canvasEl => {
-    if (canvasEl !== null) {
-      const ctx2d = canvasEl.getContext('2d');
-
-      const viewportSystem = buildViewportSystem({ ctx2d });
-      setViewportSystem(viewportSystem);
-
-      const newBoardSystem = buildBoardSystem({ ctx2d, mouseSystem, viewportSystem });
-      setBoardSystem(newBoardSystem);
-      newBoardSystem.render();
-    }
+//    if (canvasEl !== null) {
+//      const ctx2d = canvasEl.getContext('2d');
+//
+//      const viewportSystem = buildViewportSystem({ ctx2d });
+//      setViewportSystem(viewportSystem);
+//
+//      const newBoardSystem = buildBoardSystem({ ctx2d, mouseSystem, viewportSystem });
+//      setBoardSystem(newBoardSystem);
+//      newBoardSystem.render();
+//    }
   }, []);
 
   return (
