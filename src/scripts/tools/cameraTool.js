@@ -53,7 +53,7 @@ const buildStateMachine = ({ states, initialStateKey, memory, systems }) => {
 
 const localVec2 = vec2.create();
 const flipYVector = vec2.set(vec2.create(), 1, -1);
-const buildCameraTool = ({ systems: { viewport } }) => {
+const buildCameraTool = ({ systems: { viewport }, prepareRender }) => {
   const memory = { cameraAnchorPoint: vec2.create() };
   const states = {
     disengaged: {
@@ -69,6 +69,8 @@ const buildCameraTool = ({ systems: { viewport } }) => {
         vec2.mul(localVec2, localVec2, flipYVector);
         systems.viewport.setOffset(
           vec2.add(localVec2, memory.cameraAnchorPoint, localVec2));
+
+        prepareRender();
       },
       release: (action, mouseSystem, memory, systems) => {
         return 'disengaged';

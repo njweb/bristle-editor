@@ -8,22 +8,29 @@ const projectionMatrix = mat2d.create();
 const editorSystemMethods = {
   attachViewport(viewport) {
     this.viewport = viewport;
-    this.cameraTool = buildCameraTool({ systems: { viewport } });
+    this.cameraTool = buildCameraTool({
+      systems: { viewport },
+      prepareRender: this.prepareRender.bind(this)
+    });
     this.prepareRender();
   },
   attachEventSystem(eventSystem) {
     eventSystem.subscribe(this.eventHandler.bind(this));
   },
   eventHandler(event, system) {
-    //console.log('event ', event, system);
     this.cameraTool.dispatch(event, system);
-    this.prepareRender();
   },
   clearCanvas() {
     const { ctx2d } = this.viewport;
 
     ctx2d.fillStyle = 'white';
     ctx2d.fillRect(0, 0, ctx2d.canvas.width, ctx2d.canvas.height);
+  },
+  prepareRender() {
+    if (!this.willRender) {
+      this.willRender = true;
+      window.requestAnimationFrame(this.boundRender);
+    }
   },
   render() {
     this.willRender = false;
@@ -45,12 +52,6 @@ const buildEditorSystem = () => {
   });
 
   editorSystem.boundRender = editorSystem.render.bind(editorSystem);
-  editorSystem.prepareRender = function() {
-    if (!this.willRender) {
-      this.willRender = true;
-      window.requestAnimationFrame(this.boundRender);
-    }
-  };
 
   return editorSystem;
 };
