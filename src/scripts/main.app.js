@@ -2,6 +2,9 @@
 import { h, render } from 'preact';
 import EditorCanvas from './EditorCanvas';
 
+import segmentMaths from './maths/segmentMaths';
+segmentMaths();
+
 import buildEditorSystem from './systems/editorSystem';
 
 const editorSystem = buildEditorSystem();
