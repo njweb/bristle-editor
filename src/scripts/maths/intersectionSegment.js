@@ -35,7 +35,7 @@ const getPointsNormalDotProduct = (() => {
 const findMiddleColinearSegmentPoints = (s1, s2) => {
   return [...s1, ...s2].sort((a, b) => (
     a[0] === b[0] ? a[1] - b[1] : a[0] - b[0]
-  )).slice(1, -1);
+  )).slice(1, -1).map(p => vec2.clone(p));
 };
 
 const areSegmentsColinear = (() => {
@@ -64,7 +64,6 @@ const computeIntersectionValues = (x1, y1, x2, y2, x3, y3, x4, y4) => ([
 const intersectSegments = (() => {
   const box1 = createBoundingBox();
   const box2 = createBoundingBox();
-  const intersection = vec2.create();
 
   return (s1, s2) => {
     initBoundingBoxFromSegment(box1, s1);
@@ -85,7 +84,7 @@ const intersectSegments = (() => {
       return [];
     }
 
-    vec2.set(intersection, nx / d, ny / d);
+    const intersection = vec2.set(vec2.create(), nx / d, ny / d);
 
     const intersectionIsOnSegments =
       isPointInBoundingBox(intersection, box1) && isPointInBoundingBox(intersection, box2)
