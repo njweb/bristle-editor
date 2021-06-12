@@ -31,7 +31,7 @@
     "eslint-plugin-react": "^7.14.3",
     "eslint-plugin-react-hooks": "^1.7.0",
     "jest": "^24.9.0",
-    "pug": "^2.0.3",
+    "pug": "^3.0.1",
     "pug-cli": "^1.0.0-alpha6",
     "rollup": "^1.6.0",
     "rollup-cli": "^1.0.9",
