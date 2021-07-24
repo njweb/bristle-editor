@@ -1,0 +1,52 @@
+*
+  box-sizing border-box
+
+.full-width
+  width 100%
+
+p,article,h1,h2,h3,h4,h5
+  max-width 64ch
+
+h1,h2,h3,h4,h5
+  // @extend .with-raleway
+  margin 0
+
+h1
+  @extend .font-size-xxl
+
+h2
+  @extend .font-size-xl
+
+h3
+  @extend .font-size-lg
+
+h4
+  @extend .font-size-med
+
+h5
+  @extend .font-size-sm
+
+a
+  color inherit
+  cursor pointer
+  text-decoration none
+
+p
+  margin 0
+
+ul
+  padding-left 0
+  margin-top 0
+  margin-bottom 0
+
+li
+  list-style-type none
+
+
+body
+  overflow-x hidden
+  color color-grey-900
+  @extend .with-system-font
+
+img
+  width 100%

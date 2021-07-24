@@ -1,0 +1,123 @@
+.margin
+  for name, length in half-lengths
+    &-{name}
+      margin length
+  for name, length in lengths
+    &-2{name}
+      margin length
+  &-t
+    for name, length in half-lengths
+      &-{name}
+        margin-top length
+    for name, length in lengths
+      &-2{name}
+        margin-top length
+  &-r
+    for name, length in half-lengths
+      &-{name}
+        margin-right length
+    for name, length in lengths
+      &-2{name}
+        margin-right length
+  &-b
+    for name, length in half-lengths
+      &-{name}
+        margin-bottom length
+    for name, length in lengths
+      &-2{name}
+        margin-bottom length
+  &-l
+    for name, length in half-lengths
+      &-{name}
+        margin-left length
+    for name, length in lengths
+      &-2{name}
+        margin-left length
+  &-x
+    for name, length in half-lengths
+      &-{name}
+        margin-left length
+        margin-right length
+    for name, length in lengths
+      &-2{name}
+        margin-left length
+        margin-right length
+  &-y
+    for name, length in half-lengths
+      &-{name}
+        margin-top length
+        margin-bottom length
+    for name, length in lengths
+      &-2{name}
+        margin-top length
+        margin-bottom length
+
+.pad
+  for name, length in half-lengths
+    &-{name}
+      padding length
+  for name, length in lengths
+    &-2{name}
+      padding length
+  &-t
+    for name, length in half-lengths
+      &-{name}
+        padding-top length
+    for name, length in lengths
+      &-2{name}
+        padding-top length
+  &-r
+    for name, length in half-lengths
+      &-{name}
+        padding-right length
+    for name, length in lengths
+      &-2{name}
+        padding-right length
+  &-b
+    for name, length in half-lengths
+      &-{name}
+        padding-bottom length
+    for name, length in lengths
+      &-2{name}
+        padding-bottom length
+  &-l
+    for name, length in half-lengths
+      &-{name}
+        padding-left length
+    for name, length in lengths
+      &-2{name}
+        padding-left length
+  &-x
+    for name, length in half-lengths
+      &-{name}
+        padding-left length
+        padding-right length
+    for name, length in lengths
+      &-2{name}
+        padding-left length
+        padding-right length
+  &-y
+    for name, length in half-lengths
+      &-{name}
+        padding-top length
+        padding-bottom length
+    for name, length in lengths
+      &-2{name}
+        padding-top length
+        padding-bottom length
+
+.shim
+  &-x
+    for name, length in half-lengths
+      &-{name}
+        width length
+    for name, length in lengths
+      &-2{name}
+        width length
+  &-y
+    for name, length in half-lengths
+      &-{name}
+        height length
+    for name, length in lengths
+      &-2{name}
+        height length

@@ -1,0 +1,17 @@
+.rack
+  for name, length in half-lengths
+    &-{name}
+      > * + *
+        margin-left length
+  &-with-border
+    > * + *
+      border-left solid
+
+.stack
+  for name, length in half-lengths
+    &-{name}
+      > * + *
+        margin-top length
+  &-with-border
+    > * + *
+      border-top solid
